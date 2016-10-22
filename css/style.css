@@ -1,0 +1,24 @@
+body {
+  text-align: center; }
+
+.machine {
+  padding: 20px;
+  display: inline-block;
+  background-color: deepskyblue;
+  text-align: center; }
+
+.window {
+  width: 150px;
+  height: 200px;
+  margin: 20px 5px;
+  overflow: hidden;
+  display: inline-block;
+  background-color: white; }
+  .window ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0; }
+  .window li {
+    width: 150px;
+    height: 200px;
+    background-color: yellow; }
