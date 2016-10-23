@@ -21,4 +21,10 @@ body {
   .window li {
     width: 150px;
     height: 200px;
-    background-color: yellow; }
+    background-color: yellow;
+    line-height: 200px; }
+
+button {
+  width: 100px;
+  display: block;
+  margin: 5px auto; }
