@@ -30,9 +30,16 @@ body {
   .window li {
     height: 200px;
     line-height: 200px;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -moz-box-sizing: border-box;
     box-sizing: border-box; }
     .window li .fruit {
       margin: 0 auto;
