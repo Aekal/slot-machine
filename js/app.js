@@ -2,29 +2,36 @@ $(document).ready(function() {
 
 	$("#start").on("click", start);
 	$("#stop").on("click", stop);
-	var isMoving = true;
+	var isMoving = [];
+	var randDuration = [];
 
 	function start() {
 
-		//Set loop
-		isMoving = true;
+		isMoving = [true, true, true];
+		randDuration = [
+			Math.round(((Math.random()) + 0.5) * 100),
+			Math.round(((Math.random()) + 0.5) * 100),
+			Math.round(((Math.random()) + 0.5) * 100)
+		];
+		console.log(randDuration);
 		setInterval(roll, 0);
-		// move();
 
 	}
 
 	//Animate li items
 	function roll() {
-		if (isMoving) {
-			var rollsStart = [$("#roll_1 li:first"), $("#roll_2 li:first"), $("#roll_3 li:first")];
+		var rollsStart = [$("#roll_1 li:first"), $("#roll_2 li:first"), $("#roll_3 li:first")];
 
-			for (var i = 0; i < rollsStart.length; i++) {
+		for (var i = 0; i < rollsStart.length; i++) {
+
+			if (isMoving[i]) {
+
 				rollsStart[i].animate({
 
 					//Move first element outside the box
 					marginTop: "-200px"
 
-				}, 100, function() {
+				}, randDuration[i], function() {
 
 					//Move first element after last
 					var last = $(this).siblings(":last");
@@ -37,15 +44,32 @@ $(document).ready(function() {
 	}
 
 	function stop() {
+		var timeout = 700;
+		for (var i = 0; i < isMoving.length; i++) {
 
-		// Random 1-4 seconds
-		var rand = Math.round((Math.random()*1 + 1) * 1000);
-		console.log(rand);
+			doSetTimeout(i, 700);
+
+		}
+
 		setTimeout(function() {
 
-			isMoving = false;
+			checkWin();
 
-		}, rand);
+		}, timeout * 3)
 
+		function doSetTimeout(i, timeout) {
+
+			setTimeout(function() {
+
+				isMoving[i] = false;
+
+			}, timeout * (i+1));
+
+		}
+
+		function checkWin() {
+			var rollsStart = [$("#roll_1 li:first-child div"), $("#roll_2 li:first-child div"), $("#roll_3 li:first-child div")];
+			console.log(rollsStart);
+		}
 	}
 });

@@ -21,8 +21,33 @@ body {
   .window li {
     width: 150px;
     height: 200px;
-    background-color: yellow;
-    line-height: 200px; }
+    line-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
+    .window li .fruit {
+      margin: 0 auto;
+      background: url("../img/fruits.png") no-repeat center; }
+      .window li .fruit.grapes {
+        background-position: 0 0;
+        width: 150px;
+        height: 183px; }
+      .window li .fruit.orange {
+        background-position: -443.99998474121094px 0;
+        width: 150px;
+        height: 150px; }
+      .window li .fruit.pineapple {
+        background-position: -304px 0;
+        width: 136px;
+        height: 200px; }
+      .window li .fruit.plum {
+        background-position: -152px 0;
+        width: 150px;
+        height: 188px; }
+      .window li .fruit.strawberry {
+        background-position: -596.9999847412109px 0;
+        width: 150px;
+        height: 166px; }
 
 button {
   width: 100px;
