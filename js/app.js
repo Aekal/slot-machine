@@ -19,24 +19,30 @@ $(document).ready(function() {
 	}
 
 	function start() {
+		var goldAmount = parseInt($(".gold").text());
 
-		score(-1);
-		disableButton("start");
-		enableButton("stop");
-		$(".message").text("");
-		isMoving = [true, true, true];
+		//Stop if out of money
+		if (goldAmount > 0) {
 
-		//Random rolling speed (30 - 90)
-		randDuration = [
-			Math.round(((Math.random()) * 60) + 30),
-			Math.round(((Math.random()) * 60) + 30),
-			Math.round(((Math.random()) * 60) + 30)
-		];
+			score(-1);
+			disableButton("start");
+			enableButton("stop");
+			$(".message").text("");
+			isMoving = [true, true, true];
 
-		// randDuration = [400, 400, 400]
+			//Random rolling speed (30 - 90)
+			randDuration = [
+				Math.round(((Math.random()) * 60) + 30),
+				Math.round(((Math.random()) * 60) + 30),
+				Math.round(((Math.random()) * 60) + 30)
+			];
 
-		//Loop rolling
-		setInterval(roll, 0);
+			//Loop rolling
+			setInterval(roll, 0);
+
+		} else {
+			disableButton("start");
+		}
 
 	}
 
@@ -53,10 +59,10 @@ $(document).ready(function() {
 				rollsStart[i].animate({
 
 					//Move first element outside the box
-					// marginTop: "-" + 200
 					marginTop: "-" + itemHeight
 
 				}, randDuration[i], function() {
+
 					//Move first element after last
 					var last = $(this).siblings(":last");
 					$(this).remove().css("margin-top", "0");
@@ -85,26 +91,26 @@ $(document).ready(function() {
 
 	function score(value) {
 
-		var time = 1000;
+		var displayTime = 800;
+
+		//Display win/lose text
 		if (value > 0) {
 			$(".scored").text("+" + value).css("color", "green");
-			$(".scored").fadeIn(time);
-			$(".scored").fadeOut(time);
+			$(".scored").fadeIn(displayTime);
+			$(".scored").fadeOut(displayTime);
 		} else {
 			$(".scored").text(value).css("color", "red");
-			$(".scored").fadeIn(time);
-			$(".scored").fadeOut(time);
+			$(".scored").fadeIn(displayTime);
+			$(".scored").fadeOut(displayTime);
 		}
 
+		//Change gold amount
 		gold += value;
 		$(".gold").text(gold);
 	}
 
-	//Animate li items
-
-
 	function stop() {
-		var timeout = 800;
+		var timeout = 600;
 		disableButton("stop");
 
 		for (var i = 0; i < isMoving.length; i++) {
@@ -113,13 +119,7 @@ $(document).ready(function() {
 
 		}
 
-		setTimeout(function() {
-
-			enableButton("start");
-			checkWin();
-
-		}, (timeout+50) * 3)
-
+		//Set timeout for every roll separate
 		function doSetTimeout(i, timeout) {
 
 			setTimeout(function() {
@@ -128,14 +128,25 @@ $(document).ready(function() {
 
 			}, timeout * (i+1));
 		}
+
+		//Display message after stop rolling + change score
+		setTimeout(function() {
+
+			enableButton("start");
+			checkWin();
+
+		}, (timeout+50) * 3)
+
 	}
 
 	function checkWin() {
+
 		var winNumber = [
 			$("#roll_1 li:first div").text(),
 			$("#roll_2 li:first div").text(),
 			$("#roll_3 li:first div").text()
 		];
+
 		if ((winNumber[0] === winNumber[1]) && (winNumber[0] === winNumber[2])) {
 
 			score(10);

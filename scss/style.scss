@@ -83,7 +83,7 @@ body {
 
 .message {
 	text-align: center;
-	height: 20px;
+	height: 30px;
 	font-size: 20px;
 }
 
@@ -91,15 +91,16 @@ body {
 	margin-top: 10px;
 
 	button {
-		width: 80px;
+		width: 100px;
 		height: 80px;
 		background-color: $yellow + 10;
 		border: 3px solid $yellow - 30;
 		border-radius: 10px;
 		display: inline-block;
-		margin: 5px auto;
+		margin: 5px;
 		cursor: pointer;
 		font-size: 18px;
+		text-transform: uppercase;
 
 		&:hover {
 			background-color: $yellow + 20;

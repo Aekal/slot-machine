@@ -59,21 +59,22 @@ body {
 
 .message {
   text-align: center;
-  height: 20px;
+  height: 30px;
   font-size: 20px; }
 
 .buttons {
   margin-top: 10px; }
   .buttons button {
-    width: 80px;
+    width: 100px;
     height: 80px;
     background-color: #ffe03c;
     border: 3px solid #d7b814;
     border-radius: 10px;
     display: inline-block;
-    margin: 5px auto;
+    margin: 5px;
     cursor: pointer;
-    font-size: 18px; }
+    font-size: 18px;
+    text-transform: uppercase; }
     .buttons button:hover {
       background-color: #ffea46; }
     .buttons button:focus {
