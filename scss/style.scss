@@ -1,21 +1,33 @@
+$yellow: #f5d632;
+$gray: #dbdbdb + 30;
+
 body {
 	text-align: center;
+	font-family: 'Roboto', sans-serif;
 }
 
 .machine {
+	h1 {
+		margin: 5px;
+		font-size: 40px;
+	}
+
 	padding: 20px;
 	display: inline-block;
-	background-color: deepskyblue;
+	background-color: $gray - 30;
 	text-align: center;
+	border: 3px solid $gray - 70;
 }
 
 .window {
-	width: 150px;
+	width: 170px;
 	height: 200px;
 	margin: 20px 5px;
 	overflow: hidden;
 	display: inline-block;
-	background-color: white;
+	background-color: $gray + 10;
+	border-radius: 20px;
+	box-shadow: 2px 2px 20px -5px black;
 
 	ul {
 		list-style-type: none;
@@ -24,52 +36,99 @@ body {
 	}
 
 	li {
-		width: 150px;
 		height: 200px;
 		line-height: 200px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		box-sizing: border-box;
 
 		.fruit {
 			margin: 0 auto;
 			background: url("../img/fruits.png") no-repeat center;
+			text-indent: 300px;
+		}
 
-			&.grapes {
-				background-position: 0 0;
-				width: 150px;
-				height: 183px;
-			}
+		.grapes {
+			background-position: 0 0;
+			width: 148px;
+			height: 180px;
+		}
 
-			&.orange {
-				background-position: -443.99998474121094px 0;
-				width: 150px;
-				height: 150px;
-			}
+		.orange {
+			background-position: -430px 0;
+			width: 150px;
+			height: 150px;
+		}
 
-			&.pineapple {
-				background-position: -304px 0;
-				width: 136px;
-				height: 200px;
-			}
+		.pineapple {
+			background-position: -300px 0;
+			width: 122px;
+			height: 180px;
+		}
 
-			&.plum {
-				background-position: -152px 0;
-				width: 150px;
-				height: 188px;
-			}
+		.plum {
+			background-position: -152px 0;
+			width: 144px;
+			height: 180px;
+		}
 
-			&.strawberry {
-				background-position: -596.9999847412109px 0;
-				width: 150px;
-				height: 166px;
-			}
+		.strawberry {
+			background-position: -584.9999847412109px 0;
+			width: 150px;
+			height: 166px;
 		}
 	}
 }
 
-button {
-	width: 100px;
-	display: block;
-	margin: 5px auto;
+.message {
+	text-align: center;
+	height: 20px;
+	font-size: 20px;
+}
+
+.buttons {
+	margin-top: 10px;
+
+	button {
+		width: 80px;
+		height: 80px;
+		background-color: $yellow + 10;
+		border: 3px solid $yellow - 30;
+		border-radius: 10px;
+		display: inline-block;
+		margin: 5px auto;
+		cursor: pointer;
+		font-size: 18px;
+
+		&:hover {
+			background-color: $yellow + 20;
+		}
+
+		&:focus {
+			outline: none;
+			border-color: $yellow - 50;
+		}
+	}
+}
+
+.gold-container {
+	display: inline-block;
+	margin-top: 10px;
+	position: relative;
+
+	.gold {
+		display: inline-block;
+		vertical-align: top;
+		font-size: 70px;
+		margin: 5px;
+	}
+
+	.scored {
+		position: absolute;
+		top: 15px;
+		right: -90px;
+		display: none;
+		font-size: 50px;
+	}
 }

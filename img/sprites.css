@@ -1,33 +1,33 @@
-.grapes, .orange, .pineapple, .plum, .strawberry{
+.grapes, .plum, .pineapple, .orange, .strawberry{
 	background: url(sprites.png) no-repeat;
 }
 
 .grapes{
 	background-position: 0 0;
-	width: 150px;
-	height: 183px;
-}
-
-.orange{
-	background-position: -443.99998474121094px 0;
-	width: 150px;
-	height: 150px;
-}
-
-.pineapple{
-	background-position: -304px 0;
-	width: 136px;
-	height: 200px;
+	width: 148px;
+	height: 180px;
 }
 
 .plum{
 	background-position: -152px 0;
+	width: 144px;
+	height: 180px;
+}
+
+.pineapple{
+	background-position: -300px 0;
+	width: 122px;
+	height: 180px;
+}
+
+.orange{
+	background-position: -430px 0;
 	width: 150px;
-	height: 188px;
+	height: 150px;
 }
 
 .strawberry{
-	background-position: -596.9999847412109px 0;
+	background-position: -584.9999847412109px 0;
 	width: 150px;
 	height: 166px;
 }
