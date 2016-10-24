@@ -4,43 +4,22 @@ $(document).ready(function() {
 	var randDuration = [];
 	var gold = 50;
 
-	setNumbers();
 	setMachine();
 
 	function setMachine() {
 
-		//Event listeners for start and stop button
-		$("#start").on("click", start);
-		$("#stop").on("click", stop);
+		//Set numbers to DOM li elements
+		setNumbers();
 
 		//Set start amount of gold
 		$(".gold").text(gold);
 
 		disableButton("stop");
 
-	}
+		//Event listeners for start and stop button
+		$("#start").on("click", start);
+		$("#stop").on("click", stop);
 
-	function start() {
-
-		//Stop if out of money
-		if (securityCheck()) {
-
-			score(-1);
-			disableButton("start");
-			enableButton("stop");
-			$(".message").text("");
-			isMoving = [true, true, true];
-
-			//Random rolling speed (30 - 90)
-			randDuration = [
-				Math.round(((Math.random()) * 60) + 30),
-				Math.round(((Math.random()) * 60) + 30),
-				Math.round(((Math.random()) * 60) + 30)
-			];
-
-			//Loop rolling
-			setInterval(roll, 0);
-		}
 	}
 
 	function setNumbers() {
@@ -62,6 +41,33 @@ $(document).ready(function() {
 		}
 	}
 
+	function start() {
+
+		//Stop if out of money
+		if (securityCheck()) {
+
+			score(-1);
+			disableButton("start");
+			enableButton("stop");
+
+			//Clear message box
+			$(".message").text("");
+
+			isMoving = [true, true, true];
+
+			//Random rolling speed (30 - 90)
+			randDuration = [
+				Math.round(((Math.random()) * 60) + 30),
+				Math.round(((Math.random()) * 60) + 30),
+				Math.round(((Math.random()) * 60) + 30)
+			];
+
+			//Loop rolling
+			setInterval(roll, 0);
+		}
+	}
+
+
 	function securityCheck() {
 
 		if ( checkGold() ) {
@@ -81,7 +87,7 @@ $(document).ready(function() {
 
 	function roll() {
 
-		//Grab visible (first) line of li items
+		//Grab visible line of fruits
 		var rollsStart = [$("#roll_1 li:first"), $("#roll_2 li:first"), $("#roll_3 li:first")];
 
 		for (var i = 0; i < rollsStart.length; i++) {
@@ -126,7 +132,7 @@ $(document).ready(function() {
 
 		var displayTime = 800;
 
-		//Display win/lose text
+		//Change gold animation
 		if (value > 0) {
 			$(".scored").text("+" + value).css("color", "green");
 			$(".scored").fadeIn(displayTime - 200);
@@ -140,9 +146,11 @@ $(document).ready(function() {
 		//Change gold amount
 		gold += value;
 		$(".gold").text(gold);
+
 	}
 
 	function stop() {
+
 		var timeout = 600;
 		disableButton("stop");
 
@@ -179,6 +187,7 @@ $(document).ready(function() {
 			$("#roll_3 li:first div")[0].index
 		];
 
+		//Compare index of fruits and display messages
 		if ((winNumber[0] === winNumber[1]) && (winNumber[0] === winNumber[2])) {
 
 			score(5);
