@@ -3,6 +3,8 @@ $(document).ready(function() {
 	var isMoving = [];
 	var randDuration = [];
 	var gold = 50;
+
+	setNumbers();
 	setMachine();
 
 	function setMachine() {
@@ -19,10 +21,9 @@ $(document).ready(function() {
 	}
 
 	function start() {
-		var goldAmount = parseInt($(".gold").text());
 
 		//Stop if out of money
-		if (goldAmount > 0) {
+		if (securityCheck()) {
 
 			score(-1);
 			disableButton("start");
@@ -39,11 +40,43 @@ $(document).ready(function() {
 
 			//Loop rolling
 			setInterval(roll, 0);
+		}
+	}
 
-		} else {
-			disableButton("start");
+	function setNumbers() {
+
+		var roll1 = $("#roll_1 div");
+		var roll2 = $("#roll_2 div");
+		var roll3 = $("#roll_3 div");
+
+		for (var i = 0; i < roll1.length; i++) {
+			roll1[i].index = i+1;
 		}
 
+		for (i = 0; i < roll2.length; i++) {
+			roll2[i].index = i+1;
+		}
+
+		for (i = 0; i < roll3.length; i++) {
+			roll3[i].index = i+1;
+		}
+	}
+
+	function securityCheck() {
+
+		if ( checkGold() ) {
+			return true;
+		}
+
+		//Start of money amount > 0
+		function checkGold() {
+			var goldAmount = parseInt($(".gold").text());
+			if (goldAmount > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 
 	function roll() {
@@ -96,12 +129,12 @@ $(document).ready(function() {
 		//Display win/lose text
 		if (value > 0) {
 			$(".scored").text("+" + value).css("color", "green");
-			$(".scored").fadeIn(displayTime);
-			$(".scored").fadeOut(displayTime);
+			$(".scored").fadeIn(displayTime - 200);
+			$(".scored").fadeOut(displayTime + 200);
 		} else {
 			$(".scored").text(value).css("color", "red");
-			$(".scored").fadeIn(displayTime);
-			$(".scored").fadeOut(displayTime);
+			$(".scored").fadeIn(displayTime - 200);
+			$(".scored").fadeOut(displayTime + 200);
 		}
 
 		//Change gold amount
@@ -135,21 +168,20 @@ $(document).ready(function() {
 			enableButton("start");
 			checkWin();
 
-		}, (timeout+50) * 3)
-
+		}, (timeout+50) * 3);
 	}
 
 	function checkWin() {
 
 		var winNumber = [
-			$("#roll_1 li:first div").text(),
-			$("#roll_2 li:first div").text(),
-			$("#roll_3 li:first div").text()
+			$("#roll_1 li:first div")[0].index,
+			$("#roll_2 li:first div")[0].index,
+			$("#roll_3 li:first div")[0].index
 		];
 
 		if ((winNumber[0] === winNumber[1]) && (winNumber[0] === winNumber[2])) {
 
-			score(10);
+			score(5);
 			$(".message").css("color", "green");
 			$(".message").text("You won!");
 
@@ -159,6 +191,5 @@ $(document).ready(function() {
 			$(".message").text("Try again!");
 
 		}
-
 	}
 });
