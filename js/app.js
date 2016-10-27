@@ -1,204 +1,202 @@
 $(document).ready(function() {
 
-	var isMoving = [];
-	var randDuration = [];
-	var gold = 50;
+	//Slot machine object
+	var machine = {
 
-	setMachine();
+		isMoving : [],
+		randDuration : [],
+		gold : 50,
 
-	function setMachine() {
+		setMachine : function() {
+			//Set numbers to DOM li elements
+			this.setNumbers();
 
-		//Set numbers to DOM li elements
-		setNumbers();
+			//Set start amount of gold
+			$(".gold").text(this.gold);
 
-		//Set start amount of gold
-		$(".gold").text(gold);
+			this.disableButton("stop");
 
-		disableButton("stop");
+			//Event listeners for start and stop button
+			$("#start").on("click", this.start);
+			$("#stop").on("click", this.stop);
+		},
 
-		//Event listeners for start and stop button
-		$("#start").on("click", start);
-		$("#stop").on("click", stop);
+		setNumbers : function() {
+			var roll1 = $("#roll_1 div");
+			var roll2 = $("#roll_2 div");
+			var roll3 = $("#roll_3 div");
 
-	}
+			for (var i = 0; i < roll1.length; i++) {
+				roll1[i].index = i+1;
+			}
 
-	function setNumbers() {
+			for (i = 0; i < roll2.length; i++) {
+				roll2[i].index = i+1;
+			}
 
-		var roll1 = $("#roll_1 div");
-		var roll2 = $("#roll_2 div");
-		var roll3 = $("#roll_3 div");
+			for (i = 0; i < roll3.length; i++) {
+				roll3[i].index = i+1;
+			}
+		},
 
-		for (var i = 0; i < roll1.length; i++) {
-			roll1[i].index = i+1;
-		}
+		start : function() {
 
-		for (i = 0; i < roll2.length; i++) {
-			roll2[i].index = i+1;
-		}
+			//Stop if out of money
+			if (machine.securityCheck()) {
 
-		for (i = 0; i < roll3.length; i++) {
-			roll3[i].index = i+1;
-		}
-	}
+				machine.score(-1);
+				machine.disableButton("start");
+				machine.enableButton("stop");
 
-	function start() {
+				//Clear message box
+				$(".message").text("");
 
-		//Stop if out of money
-		if (securityCheck()) {
+				machine.isMoving = [true, true, true];
 
-			score(-1);
-			disableButton("start");
-			enableButton("stop");
+				//Random rolling speed (30 - 90)
+				machine.randDuration = [
+					Math.round(((Math.random()) * 60) + 30),
+					Math.round(((Math.random()) * 60) + 30),
+					Math.round(((Math.random()) * 60) + 30)
+				];
 
-			//Clear message box
-			$(".message").text("");
+				// Loop rolling
+				setInterval(machine.roll, 0);
+			}
 
-			isMoving = [true, true, true];
+		},
 
-			//Random rolling speed (30 - 90)
-			randDuration = [
-				Math.round(((Math.random()) * 60) + 30),
-				Math.round(((Math.random()) * 60) + 30),
-				Math.round(((Math.random()) * 60) + 30)
-			];
+		securityCheck : function() {
 
-			//Loop rolling
-			setInterval(roll, 0);
-		}
-	}
-
-
-	function securityCheck() {
-
-		if ( checkGold() ) {
-			return true;
-		}
-
-		//Start of money amount > 0
-		function checkGold() {
-			var goldAmount = parseInt($(".gold").text());
-			if (goldAmount > 0) {
+			if ( checkGold() ) {
 				return true;
+			}
+
+			//Start of money amount > 0
+			function checkGold() {
+				var goldAmount = parseInt($(".gold").text());
+				if (goldAmount > 0) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+		},
+
+		roll : function() {
+			//Grab visible line of fruits
+			var rollsStart = [$("#roll_1 li:first"), $("#roll_2 li:first"), $("#roll_3 li:first")];
+
+			for (var i = 0; i < rollsStart.length; i++) {
+				var itemHeight = rollsStart[i].height();
+
+				if (machine.isMoving[i]) {
+
+					rollsStart[i].animate({
+
+						//Move first element outside the box
+						marginTop: "-" + itemHeight
+
+					}, machine.randDuration[i], function() {
+
+						//Move first element after last
+						var last = $(this).siblings(":last");
+						$(this).remove().css("margin-top", "0");
+						last.after(this);
+					});
+				}
+			}
+		},
+
+		disableButton : function(type) {
+			if (type == "start") {
+				$("#start").attr("disabled", true);
+			} else if (type == "stop"){
+				$("#stop").attr("disabled", true);
+			}
+		},
+
+		enableButton : function(type) {
+			if (type == "start") {
+				$("#start").attr("disabled", false);
+			} else if (type == "stop"){
+				$("#stop").attr("disabled", false);
+			}
+		},
+
+		score : function(value) {
+			var displayTime = 800;
+
+			//Change gold animation
+			if (value > 0) {
+				$(".scored").text("+" + value).css("color", "green");
+				$(".scored").fadeIn(displayTime - 200);
+				$(".scored").fadeOut(displayTime + 200);
 			} else {
-				return false;
+				$(".scored").text(value).css("color", "red");
+				$(".scored").fadeIn(displayTime - 200);
+				$(".scored").fadeOut(displayTime + 200);
 			}
-		}
-	}
 
-	function roll() {
+			//Change gold amount
+			machine.gold += value;
+			$(".gold").text(machine.gold);
+		},
 
-		//Grab visible line of fruits
-		var rollsStart = [$("#roll_1 li:first"), $("#roll_2 li:first"), $("#roll_3 li:first")];
+		stop : function() {
+			var timeout = 600;
+			machine.disableButton("stop");
 
-		for (var i = 0; i < rollsStart.length; i++) {
-			var itemHeight = rollsStart[i].height();
+			for (var i = 0; i < machine.isMoving.length; i++) {
 
-			if (isMoving[i]) {
+				doSetTimeout(i, timeout);
 
-				rollsStart[i].animate({
-
-					//Move first element outside the box
-					marginTop: "-" + itemHeight
-
-				}, randDuration[i], function() {
-
-					//Move first element after last
-					var last = $(this).siblings(":last");
-					$(this).remove().css("margin-top", "0");
-					last.after(this);
-
-				});
 			}
-		}
-	}
 
-	function disableButton(type) {
-		if (type == "start") {
-			$("#start").attr("disabled", true);
-		} else if (type == "stop"){
-			$("#stop").attr("disabled", true);
-		}
-	}
+			//Set timeout for every roll separate
+			function doSetTimeout(i, timeout) {
 
-	function enableButton(type) {
-		if (type == "start") {
-			$("#start").attr("disabled", false);
-		} else if (type == "stop"){
-			$("#stop").attr("disabled", false);
-		}
-	}
+				setTimeout(function() {
 
-	function score(value) {
+					machine.isMoving[i] = false;
 
-		var displayTime = 800;
+				}, timeout * (i+1));
+			}
 
-		//Change gold animation
-		if (value > 0) {
-			$(".scored").text("+" + value).css("color", "green");
-			$(".scored").fadeIn(displayTime - 200);
-			$(".scored").fadeOut(displayTime + 200);
-		} else {
-			$(".scored").text(value).css("color", "red");
-			$(".scored").fadeIn(displayTime - 200);
-			$(".scored").fadeOut(displayTime + 200);
-		}
-
-		//Change gold amount
-		gold += value;
-		$(".gold").text(gold);
-
-	}
-
-	function stop() {
-
-		var timeout = 600;
-		disableButton("stop");
-
-		for (var i = 0; i < isMoving.length; i++) {
-
-			doSetTimeout(i, timeout);
-
-		}
-
-		//Set timeout for every roll separate
-		function doSetTimeout(i, timeout) {
-
+			//Display message after stop rolling + change score
 			setTimeout(function() {
 
-				isMoving[i] = false;
+				machine.enableButton("start");
+				machine.checkWin();
 
-			}, timeout * (i+1));
+			}, (timeout+50) * 3);
+		},
+
+		checkWin : function() {
+			var winNumber = [
+				$("#roll_1 li:first div")[0].index,
+				$("#roll_2 li:first div")[0].index,
+				$("#roll_3 li:first div")[0].index
+			];
+
+			//Compare index of fruits and display messages
+			if ((winNumber[0] === winNumber[1]) && (winNumber[0] === winNumber[2])) {
+
+				machine.score(5);
+				$(".message").css("color", "green");
+				$(".message").text("You won!");
+
+			} else {
+
+				$(".message").css("color", "red");
+				$(".message").text("Try again!");
+
+			}
 		}
 
-		//Display message after stop rolling + change score
-		setTimeout(function() {
-
-			enableButton("start");
-			checkWin();
-
-		}, (timeout+50) * 3);
 	}
 
-	function checkWin() {
+	machine.setMachine();
 
-		var winNumber = [
-			$("#roll_1 li:first div")[0].index,
-			$("#roll_2 li:first div")[0].index,
-			$("#roll_3 li:first div")[0].index
-		];
-
-		//Compare index of fruits and display messages
-		if ((winNumber[0] === winNumber[1]) && (winNumber[0] === winNumber[2])) {
-
-			score(5);
-			$(".message").css("color", "green");
-			$(".message").text("You won!");
-
-		} else {
-
-			$(".message").css("color", "red");
-			$(".message").text("Try again!");
-
-		}
-	}
 });
