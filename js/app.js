@@ -59,24 +59,24 @@ $(document).ready(function() {
 		},
 		roll : function() {
 			//Grab visible line of fruits
-			var rollsStart = [
+			var $rollsStart = [
 				$("#roll_1 li:first"),
 				$("#roll_2 li:first"),
 				$("#roll_3 li:first")
 			];
 
-			for (i = 0; i < rollsStart.length; i++) {
-				var itemHeight = rollsStart[i].height();
+			for (i = 0; i < $rollsStart.length; i++) {
+				var itemHeight = $rollsStart[i].height();
 
 				if (this.isMoving[i]) {
-					rollsStart[i].animate({
+					$rollsStart[i].animate({
 						//Move first element outside the box
 						marginTop: "-" + itemHeight
 					}, this.randDuration[i], function() {
 						//Move first element after last
-						var last = $(this).siblings(":last");
+						var $last = $(this).siblings(":last");
 						$(this).remove().css("margin-top", "0");
-						last.after(this);
+						$last.after(this);
 					});
 				}
 			}
@@ -121,14 +121,14 @@ $(document).ready(function() {
 			}, (timeout+50) * 3);
 		},
 		checkWin : function() {
-			var winNumber = [
+			var $winNumber = [
 				$("#roll_1 li:first div")[0].index,
 				$("#roll_2 li:first div")[0].index,
 				$("#roll_3 li:first div")[0].index
 			];
 
 			//Compare index of fruits and display messages
-			if ((winNumber[0] === winNumber[1]) && (winNumber[0] === winNumber[2])) {
+			if (($winNumber[0] === $winNumber[1]) && ($winNumber[0] === $winNumber[2])) {
 				this.score(5);
 				this.$message.css("color", "green");
 				this.$message.text("You won!");
