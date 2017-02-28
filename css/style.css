@@ -10,6 +10,10 @@ body {
   text-align: center;
   border: 3px solid #bdbdbd;
   margin-top: 50px; }
+  @media (max-width: 620px) {
+    .machine {
+      margin-top: 10px;
+      padding: 10px; } }
   .machine h1 {
     margin: 5px;
     font-size: 40px; }
@@ -23,6 +27,14 @@ body {
   background-color: white;
   border-radius: 20px;
   box-shadow: 2px 2px 20px -5px black; }
+  @media (max-width: 620px) {
+    .window {
+      margin: 10px 0;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      padding: 0 5px;
+      width: 85px;
+      height: 120px; } }
   .window ul {
     list-style-type: none;
     margin: 0;
@@ -45,6 +57,12 @@ body {
       margin: 0 auto;
       background: url("../img/fruits.png") no-repeat center;
       text-indent: 300px; }
+      @media (max-width: 620px) {
+        .window li .fruit {
+          -webkit-transform-origin: left top;
+          transform-origin: left top;
+          -webkit-transform: scale(0.5);
+          transform: scale(0.5); } }
     .window li .grapes {
       background-position: 0 0;
       width: 148px;
@@ -84,6 +102,12 @@ body {
     cursor: pointer;
     font-size: 18px;
     text-transform: uppercase; }
+    @media (max-width: 620px) {
+      .buttons button {
+        margin-top: 0;
+        font-size: 16px;
+        width: 80px;
+        height: 60px; } }
     .buttons button:hover {
       background-color: #ffea46; }
     .buttons button:focus {
@@ -105,6 +129,10 @@ body {
     right: -90px;
     display: none;
     font-size: 50px; }
+    @media (max-width: 620px) {
+      .gold-container .scored {
+        right: 80px;
+        top: 70px; } }
 
 footer {
   margin-top: 30px;
