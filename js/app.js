@@ -65,19 +65,21 @@ $(document).ready(function() {
 				$("#roll_3 li:first")
 			];
 
+			function moveElement() {
+				//Move first element after last
+				var $this = $(this);
+				var $last = $this.siblings(":last");
+				$this.remove().css("margin-top", "0");
+				$last.after(this);
+			}
+
 			for (i = 0; i < $rollsStart.length; i++) {
 				var itemHeight = $rollsStart[i].height();
-
 				if (this.isMoving[i]) {
 					$rollsStart[i].animate({
 						//Move first element outside the box
 						marginTop: "-" + itemHeight
-					}, this.randDuration[i], function() {
-						//Move first element after last
-						var $last = $(this).siblings(":last");
-						$(this).remove().css("margin-top", "0");
-						$last.after(this);
-					});
+					}, this.randDuration[i], moveElement);
 				}
 			}
 		},
@@ -137,6 +139,6 @@ $(document).ready(function() {
 				this.$message.text("Try again!");
 			}
 		}
-	}
+	};
 	machine.init();
 });
