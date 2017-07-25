@@ -1,0 +1,25 @@
+{
+  "name": "slot-machine",
+  "version": "1.0.0",
+  "description": "![Slot machine game image](http://fialkiewicz.pl/img/projects/slot-machine.jpg)",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aekal/slot-machine.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aekal/slot-machine/issues"
+  },
+  "homepage": "https://github.com/Aekal/slot-machine#readme",
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-sass": "^3.1.0"
+  }
+}
